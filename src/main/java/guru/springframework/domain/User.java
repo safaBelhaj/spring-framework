@@ -1,5 +1,10 @@
 package guru.springframework.domain;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
+
+import guru.springframework.domain.security.Role;
 
 @Entity
 public class User  extends AbstractDomainClass {
@@ -17,6 +22,10 @@ public class User  extends AbstractDomainClass {
     @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
     private Cart cart;
 
+    @ManyToMany
+    @JoinTable
+    private List<Role> roles=new ArrayList<>();
+    
     public Customer getCustomer(){
         return customer;
     }
@@ -54,5 +63,23 @@ public class User  extends AbstractDomainClass {
     }
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
+    }
+    public List<Role> getRoles(){
+    	return roles;
+    }
+    public void setRoles(List<Role> roles) {
+    	this.roles=roles;
+    }
+    public void addRole(Role role) {
+    	if(!this.roles.contains(role)) {
+    		this.roles.add(role);
+    	}
+    	if(!role.getUsers().contains(this)){
+    		role.getUsers().add(this); 
+    	}
+    }
+    public void removeRole(Role role) {
+    	this.roles.remove(role);
+    	role.getUsers().remove(this);
     }
 }

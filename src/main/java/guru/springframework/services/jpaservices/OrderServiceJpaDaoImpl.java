@@ -3,7 +3,7 @@ package guru.springframework.services.jpaservices;
 import guru.springframework.domain.Order;
 import guru.springframework.services.OrderService;
 
-import javax.persistence.EntityManager;
+import javax.persistence.*;
 import java.util.List;
 
 public class OrderServiceJpaDaoImpl extends AbstractJpaDaoService implements OrderService {

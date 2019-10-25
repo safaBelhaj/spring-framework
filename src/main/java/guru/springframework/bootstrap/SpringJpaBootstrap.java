@@ -1,10 +1,12 @@
 package guru.springframework.bootstrap;
 
 import guru.springframework.domain.*;
+import guru.springframework.domain.security.Role;
 import guru.springframework.enums.OrderStatus;
 import guru.springframework.services.CustomerService;
 import guru.springframework.services.OrderService;
 import guru.springframework.services.ProductService;
+import guru.springframework.services.RoleService;
 import guru.springframework.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration;
@@ -15,14 +17,13 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.util.List;
 
-/**
- * Created by jt on 12/9/15.
- */
+
 @Component
 class SpringJPABootstrap implements ApplicationListener<ContextRefreshedEvent>{
 
     private ProductService productService;
     private UserService userService;
+    private RoleService roleService;
 
     @Autowired
     public void setUserService(UserService userService){
@@ -33,6 +34,11 @@ class SpringJPABootstrap implements ApplicationListener<ContextRefreshedEvent>{
     public void setProductService(ProductService productService) {
         this.productService = productService;
     }
+    
+    @Autowired
+    public void setRoleService(RoleService roleService) {
+    	this.roleService=roleService;
+    }
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
@@ -40,7 +46,26 @@ class SpringJPABootstrap implements ApplicationListener<ContextRefreshedEvent>{
         loadUsersAndCustomers();
         loadCarts();
         loadOrderHistory();
+        loadRoles();
+        assignUsersToDefaultRole();
 
+    }
+    public void loadRoles() {
+    	Role role=new Role();
+    	role.setRole("CUSTOMER");
+    	roleService.saveOrUpdate(role);
+    }
+    public void assignUsersToDefaultRole() {
+    	List<Role> roles =(List<Role>) roleService.listAll();
+    	List<User> users =(List<User>) userService.listAll();
+    	roles.forEach(role ->{
+    			if(role.getRole().equalsIgnoreCase("CUSTOMER")) {
+    				users.forEach(user->{
+    					user.addRole(role);
+    					userService.saveOrUpdate(user);
+    				});
+    			}}
+    			);
     }
     public void loadCarts(){
         List<User> users= (List<User>) userService.listAll();

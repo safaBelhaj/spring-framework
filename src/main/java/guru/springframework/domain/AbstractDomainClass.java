@@ -1,9 +1,16 @@
 package guru.springframework.domain;
 
-import javax.persistence.*;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.Version;
+
 import java.util.Date;
 
-/* it tells jpa that it can inherit propreties from it */
+/* it tells Jpa that it can inherit properties from it */
 @MappedSuperclass
 public class AbstractDomainClass implements DomainObject {
     @Id
@@ -43,7 +50,7 @@ public class AbstractDomainClass implements DomainObject {
     public Date getLastUploaded() {
         return lastUpdated;
     }
-    public void setDateUploaded(Date dateUploaded) {
+    public void setDateUploaded(Date lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
 

@@ -1,7 +1,6 @@
 package guru.springframework.domain;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 public class CartDetail extends AbstractDomainClass {

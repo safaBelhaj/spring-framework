@@ -18,7 +18,7 @@ public class CustomerController {
     public void setCustomerService(CustomerService customerService){
         this.customerService = customerService;
     }
-    @RequestMapping({"/list", "/"})
+    @RequestMapping("/list")
     public String listCustomers(Model model){
         model.addAttribute("customers", customerService.listAll());
         return "list";
@@ -40,9 +40,9 @@ public class CustomerController {
         return "redirect:customer/show/"+newCustomer.getId();
     }
     @RequestMapping("/delete/{id}")
-    public String deleteCustomer(@PathVariable Integer id){
-    customerService.delete(id);
-    return "redirect:/customer/list";
+    public String delete(@PathVariable Integer id){
+        customerService.delete(id);
+        return "redirect:/customer/list";
     }
     @RequestMapping("/edit/{id}")
     public String edit(@PathVariable Integer id,Model model){

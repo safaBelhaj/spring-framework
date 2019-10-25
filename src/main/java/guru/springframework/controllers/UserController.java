@@ -1,7 +1,5 @@
 package guru.springframework.controllers;
 
-import guru.springframework.domain.User;
-import guru.springframework.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,10 +7,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.transaction.Transactional;
+import guru.springframework.domain.Customer;
+import guru.springframework.domain.User;
+import guru.springframework.services.UserService;
 
-@Controller
 @RequestMapping("/user")
+@Controller
 public class UserController {
 
     private UserService userService;
@@ -20,8 +20,7 @@ public class UserController {
     public void setUserService(UserService userService){
         this.userService=userService;
     }
-    @Transactional
-    @RequestMapping({"/list","/"})
+    @RequestMapping(method=RequestMethod.GET ,value="/list")
     public String listUser(Model model){
         model.addAttribute("users",userService.listAll());
         return "listUser";
@@ -41,14 +40,14 @@ public class UserController {
         model.addAttribute("user",new User());
         return "userForm";
     }
-    @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String saveOrUpdate(User user){
-        User savedUser=userService.saveOrUpdate(user);
-        return "redirect:/showUser/"+savedUser.getId();
+    @RequestMapping(method = RequestMethod.POST)
+    public String createCustomer(User user){
+        User newUser= userService.saveOrUpdate(user);
+        return "redirect:/user/show/"+newUser.getId();
     }
     @RequestMapping("/delete/{id}")
     public String delete(@PathVariable Integer id){
         userService.delete(id);
-        return "redirect:/listUser";
+        return "redirect:/user/list";
     }
 }

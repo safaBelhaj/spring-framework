@@ -5,7 +5,7 @@ import guru.springframework.services.ProductService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
+import javax.persistence.*;
 import java.util.List;
 
 @Service

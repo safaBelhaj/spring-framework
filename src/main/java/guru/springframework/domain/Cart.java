@@ -2,7 +2,6 @@ package guru.springframework.domain;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity

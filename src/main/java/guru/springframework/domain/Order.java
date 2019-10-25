@@ -4,10 +4,10 @@ import guru.springframework.enums.OrderStatus;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
+@Table(name = "order_table")
 public class Order extends AbstractDomainClass {
     @Embedded
     private  Address shipToAddress;
@@ -18,7 +18,6 @@ public class Order extends AbstractDomainClass {
     private List<OrderDetail> orderDetails=new ArrayList<>();
 
     private OrderStatus orderStatus;
-    private Date dateShipped;
 
     public List<OrderDetail> getOrderDetails() {
         return orderDetails;

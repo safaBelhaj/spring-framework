@@ -11,8 +11,6 @@ import java.util.*;
 @Profile("map")
 public class CustomerServiceImpl extends AbstractMapService implements CustomerService {
 
-
-
     @Override
     public List<DomainObject> listAll(){
         return super.listAll();
